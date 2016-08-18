@@ -1,4 +1,9 @@
-#!/bin/sh
+#!/bin/bash -ex
+
+if [ "$(whoami)" != "root" ]; then
+    sudo su -c "`curl -fsSL https://raw.githubusercontent.com/mpaluru/mp_pub_dotfiles/master/install.sh`"
+    exit
+fi
 
 REPO=mp_pub_dotfiles
 INSTALL_DIR="${HOME}/.${REPO}"
