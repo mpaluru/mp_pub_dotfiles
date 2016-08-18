@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dotfiles=(.tmux.conf)
+dotfiles=(.tmux.conf .bash_profile)
 
 setup_dotfile()
 {
