@@ -4,6 +4,19 @@ if [ "$(whoami)" != "root" ]; then
     sudo su -c "`curl -fsSL https://raw.githubusercontent.com/mpaluru/mp_pub_dotfiles/master/install.sh`"
 fi
 
+check_prerequisites()
+{
+    type git
+    if [ $? -ne 0 ]; then
+        echo "git is not installed, trying to install ..."
+        # TODO: Handle other OS
+        apt-get update && apt-get install -y git
+    fi
+}
+
+
+check_prerequisites
+
 REPO=mp_pub_dotfiles
 INSTALL_DIR="${HOME}/.${REPO}"
 
