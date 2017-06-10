@@ -1,15 +1,16 @@
 #!/bin/bash
 
-dotfiles=(.tmux.conf .bash_profile)
+nodotfiles=(tmux.conf bash_profile)
 
 setup_dotfile()
 {
-    dotfile=$1
-
-    if [ "${dotfile}" == "" ]; then
-        echo "Error: no dotfile specified for setup"
+    if [ "$1" == "" ]; then
+        echo "Error: no file specified for setup"
         return 1
     fi
+
+    nodotfile=$1
+    dotfile=".${nodotfile}"
 
     # Setup the dotfile
     if [ -h ${HOME}/${dotfile} ]; then
@@ -23,15 +24,16 @@ setup_dotfile()
     fi
 
     echo "Creating the symlink for ${dotfile}"
-    ln -sv ${PWD}/${dotfile} ${HOME}/${dotfile}
+    ln -sv ${PWD}/${nodotfile} ${HOME}/${dotfile}
 }
 
-# Make sure all the dotfiles are present
-for dotfile in ${dotfiles[@]}; do
-    if [ ! -f ${dotfile} ]; then
-        echo "Error: ${dotfile} not found"
+# Make sure all the nodotfiles are present
+for nodotfile in ${nodotfiles[@]}; do
+    echo "${nodotfile}"
+    if [ ! -f ${nodotfile} ]; then
+        echo "Error: ${nodotfile} not found"
         exit 1
     else
-        setup_dotfile ${dotfile}
+        setup_dotfile ${nodotfile}
     fi
 done
