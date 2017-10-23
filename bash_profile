@@ -1,5 +1,5 @@
 
 if [ "$(whoami)" != "root" ]; then
     echo "Logging into root account ..."
-    sudo -s
+    sudo su -l
 fi
