@@ -1,7 +1,5 @@
 #!/bin/bash
 
-nodotfiles=(tmux.conf bash_profile)
-
 setup_dotfile()
 {
     if [ "$1" == "" ]; then
@@ -10,7 +8,7 @@ setup_dotfile()
     fi
 
     nodotfile=$1
-    dotfile=".${nodotfile}"
+    dotfile=$2
 
     # Setup the dotfile
     if [ -h ${HOME}/${dotfile} ]; then
@@ -27,13 +25,13 @@ setup_dotfile()
     ln -sv ${PWD}/${nodotfile} ${HOME}/${dotfile}
 }
 
-# Make sure all the nodotfiles are present
-for nodotfile in ${nodotfiles[@]}; do
-    echo "${nodotfile}"
-    if [ ! -f ${nodotfile} ]; then
-        echo "Error: ${nodotfile} not found"
-        exit 1
-    else
-        setup_dotfile ${nodotfile}
-    fi
-done
+setup_dotfile bash_profile .bash_profile
+
+tmux_nodotfile=tmux.1.8.conf
+type tmux
+if [ $? -eq 0 ]; then
+    tmux_nodotfile=$(tmux -V | tr ' ' '.').conf
+fi
+
+
+setup_dotfile ${tmux_nodotfile} .tmux.conf
